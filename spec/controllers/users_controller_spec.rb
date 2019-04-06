@@ -1,9 +1,18 @@
-# user_controller_spec.rb
+# users_controller_spec.rb
 require 'spec_helper'
  
-describe UserController, :type => :controller do
+describe UsersController, :type => :controller do
+    
+    describe "signup" do
+        it "should redirect to root page" do
+            fake_user = double('user', :username => 'Me', :email => 'me@me.com') 
+            expect(User).to receive(:find).with('1').and_return(fake_movie) 
+            expect(response).to redirect_to(root_path)
+        end
+    end
+    
     before do
-        @user = User.create(first_name: "fofo", email: "fofo@gmail.com")
+        @user = User.create(username: "fofo", email: "fofo@gmail.com")
         @channels = []
         ["hbo", "star", "abc", "news"].each do |channel_name|
          @channels << Channel.create(name: channel_name).id
@@ -11,10 +20,10 @@ describe UserController, :type => :controller do
     end
     
     describe "#redirect" do
-        it "should redirect to signin page" do
-            get :input
+        it "should redirect to login page" do
+            get :login
             expect(response).to have_http_status(302)
-            response.should redirect_to '/signin'
+            response.should redirect_to '/login'
         end
     end
     
