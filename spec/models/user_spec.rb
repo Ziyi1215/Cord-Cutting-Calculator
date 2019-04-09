@@ -1,23 +1,24 @@
 require 'rails_helper'
+require "user"
 
-RSpec.describe User, :type => :model do
-  # subject { described_class.new(password: "some_password", email: "john@doe.com") }
+RSpec.describe User do
 
+  before :each do
+    @user1 = User.create username: "user1", email: "user1@email.com", password: "password"
+  end
   
     it "is valid with valid attributes" do
-      expect(subject).to be_valid
+      expect(@user1).to be_valid
     end
 
-    # it "is not valid without a email" do
-    #   subject.email = nil
-    #   expect(subject).to_not be_valid
-    # end
-
-    it "is not valid without an picture" do
-      subject.picture = nil
-      expect(subject).to be_valid
+    it "is not valid without a email" do
+       @user1.email = nil
+       expect(@user1).to_not be_valid
     end
-  # end
-  
-  
+
+    it "is not valid without a username" do
+      @user1.username = nil
+      expect(@user1).to_not be_valid
+    end
+    
 end

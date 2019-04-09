@@ -1,59 +1,55 @@
 # users_controller_spec.rb
-require 'spec_helper'
+# require 'spec_helper'
+require 'rails_helper'
+require "user"
  
 describe UsersController, :type => :controller do
     
     describe "signup" do
-        it "should redirect to root page" do
-            fake_user = double('user', :username => 'Me', :email => 'me@me.com') 
-            expect(User).to receive(:find).with('1').and_return(fake_movie) 
-            expect(response).to redirect_to(root_path)
-        end
-    end
-    
-    before do
-        @user = User.create(username: "fofo", email: "fofo@gmail.com")
-        @channels = []
-        ["hbo", "star", "abc", "news"].each do |channel_name|
-         @channels << Channel.create(name: channel_name).id
-        end
-    end
-    
-    describe "#redirect" do
-        it "should redirect to login page" do
-            get :login
-            expect(response).to have_http_status(302)
-            response.should redirect_to '/login'
-        end
-    end
-    
-    describe "#input" do
-        it "should open user input" do
-            get :input, session: {:user_id => @user.id}
-            expect(response).to have_http_status(200)
+        it 'should create a user successfully' do
+            post :create, :params => {:user => {:username => 'user', :email => 'user@email.com', :password => 'password'}}
+            expect(response).to redirect_to root_path
         end
         
-        it "should open user input with previous history" do
-            @user.add_channels([@channels[0], @channels[1]], 'must')
-            @user.add_channels([@channels[2]], 'good')
-            @user.add_channels([@channels[3]], 'ok')
-            @user.save()
-            
-            get :input, session: {:user_id => @user.id}
-            expect(response).to have_http_status(200)
+        it 'should create a user unsuccessfully' do
+            post :create, :params => {:user => {:username => nil, :email => nil, :password => nil}}
+            expect(response).to render_template :new
         end
     end
     
-    describe "#recomendation" do
-        it "should redirect to user input page after get recommendation" do
-            input_params = {
-             :must_channel_ids => [@channels[0], @channels[1]],
-             :good_channel_ids => [@channels[2]],
-             :ok_channel_ids => [@channels[3]],
-             :budget => 100
-            }
-            post :recommendation, params: input_params, session: {:user_id => @user.id}
-            response.should redirect_to '/user/input'
+    describe "login as user" do
+    
+        before :each do
+            @user = User.create username: "user", email: "user@email.com", password: "password"
+            session[:user_id] = @user.id
         end
+
+        describe "UsersController#show" do
+            it 'should render the show in views/users' do
+                get :show, params: { id: session[:user_id] }
+                expect(response).to render_template :show
+            end           
+        end
+        
+        describe "UsersController#edit" do
+            it 'should render the edit in views/users' do
+                get :edit, params: { id: session[:user_id] }
+                expect(response).to render_template :edit
+            end           
+        end
+
+        describe "UsersController#update" do
+            let(:new_attributes) {
+                { username: "new_user", email: "new_user@email.com" }}
+            it 'should render show if information updated successfully' do
+                put :update, params: {:id => @user.to_param, :user => new_attributes}
+                @user.reload
+                @user.username.should eq_to("new_user")
+                @user.email.should eq_to("new_user@email.com")
+                expect(response).to redirect_to user_path(session[:user_id])
+            end           
+        end
+        
     end
+    
 end

@@ -1,9 +1,10 @@
-# stream_package_controller_spec.rb
+# stream_packages_controller_spec.rb
 require 'spec_helper'
  
 describe StreamPackagesController, :type => :controller do
     before do
-        @user = User.create(first_name: "fofo", email: "fofo@gmail.com")
+        @user = User.create username: "user", email: "user@email.com", password: "password"
+        session[:user_id] = @user.id   
         @channels = []
         ["hbo", "star", "abc", "news"].each do |channel_name|
          @channels << Channel.create(name: channel_name).id
