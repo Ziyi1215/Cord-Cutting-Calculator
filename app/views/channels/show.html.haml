@@ -4,6 +4,10 @@
 %p
   %strong Category:
   = @channel.category
+%p
+  %strong Antenna:
+  = @channel.antenna
+  
 = link_to 'Edit', edit_channel_path(@channel)
 |
 = link_to 'Back', channels_path

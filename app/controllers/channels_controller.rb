@@ -17,11 +17,13 @@ class ChannelsController < ApplicationController
   def new
     @channel = Channel.new
     @categories = categories
+    @antennas = antennas
   end
 
   # GET /channels/1/edit
   def edit
     @categories = categories
+    @antennas = antennas
   end
 
   # POST /channels
@@ -73,7 +75,7 @@ class ChannelsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def channel_params
-      params.require(:channel).permit(:name, :category)
+      params.require(:channel).permit(:name, :category, :antenna)
     end
 
     def categories
@@ -85,6 +87,16 @@ class ChannelsController < ApplicationController
         'Sports',
         'Science',
         'TV Shows'
+        ]
+    end
+
+
+    def antennas
+      [
+        'None',
+        'antenna1',
+        'antenna2',
+        'antenna3',
         ]
     end
 end

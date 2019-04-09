@@ -7,12 +7,14 @@
       %th Channel
       %th Category
       %th More Info
+      %th Antenna
   %tbody
     - @channels.each do |channel|
       %tr
         %td= channel.name
         %td= channel.category
         %td= link_to "Edit #{channel.name}", edit_channel_path(channel)
+        %td= channel.antenna
 
 = link_to 'New Channel', new_channel_path
 %br

@@ -23,6 +23,19 @@
           .item{"data-text" => cat, "data-value" => cat}
             =cat
   .actions
+  
+  .field
+    = form.label :antenna
+    .ui.fluid.search.selection.dropdown
+      %input{id: "antenna_dropdown", name: "receipt", type: "hidden", name: "channel[antenna]", value: "#{channel.antenna || ""}"}/
+      %i.dropdown.icon
+      .default.text Select channels
+      .menu
+        - antennas.each do |cat|
+          .item{"data-text" => cat, "data-value" => cat}
+            =cat
+  .actions
+  
     = form.submit
 
 :javascript
