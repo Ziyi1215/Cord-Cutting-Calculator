@@ -7,6 +7,7 @@
       %th Channel
       %th Category
       %th Antenna
+      %th Settopbox
       %th More Info
       // %th Antenna
   %tbody
@@ -15,6 +16,7 @@
         %td= channel.name
         %td= channel.category
         %td= channel.antenna
+        %td= channel.settopbox
         %td= link_to "Edit #{channel.name}", edit_channel_path(channel)
         // %td= channel.antenna
 
