@@ -45,40 +45,17 @@ ActiveRecord::Schema.define(version: 2019_03_27_040317) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "username", null:false
-    t.string "email", null:false
+    t.string "provider"
+    t.string "uid"
+    t.string "email"
     t.string "first_name"
     t.string "last_name"
     t.string "picture"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "username"
     t.string "password_digest"
     t.boolean "admin", default: false
   end
 
-  create_table "user_antenna", id:false, force: :cascade do |t|
-    t.interger "users_id"
-    t.interger "channels_id"
-  end
-
-  create_table "box", force: :cascade do |t|
-    t.string "name", null:false
-  end
-
-  create_table "box_channel", id:false, force: :cascade do |t|
-    t.interger "box_id"
-    t.interger "channel_id"
-  end
-
-  create_table "user_box", id:false, force: :cascade do |t|
-    t.interger "users_id"
-    t.interger "box_id"
-  end
-
-  create_table "devices", force: :cascade do |t|
-    t.string "name", null:false
-  end
-
-  create_table "user_device", id:false, force: :cascade do |t|
-    t.interger "users_id"
-    t.interger "devices_id"
-  end
 end

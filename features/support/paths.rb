@@ -43,10 +43,6 @@ module NavigationHelpers
       
     when /^the edit channel page for "(.*)"$/i
       edit_channel_path(Channel.find_by_name($1))
-
-    when /^the similar movies page for "(.*)"$/i
-      @movie = Movie.find_by_title($1)
-      same_director_movies_path(@movie)
       
     else
       begin
