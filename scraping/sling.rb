@@ -21,4 +21,6 @@ scraper.parse_page.css('//div[@data-sling-tab-name]').each do |category|
     category.css('.carousel-jam_channel-container').css('img').each do |image|
         puts image['alt']
     end
+    cost = category.css('.carousel-jam_heading').text[/[\d]+/]
+    puts cost
 end
