@@ -1,0 +1,244 @@
+***************
+LOCALS
+***************
+
+***************
+A LA CARTE
+***************
+Starz
+Showtime
+Curiosity Stream
+Up Faith and Family
+Pantaya
+Stringray Karaoke
+Hallmark Movies Now
+Genius Brands
+
+***************
+SPORTS
+***************
+MLB Network
+MLB Strikezone
+NBA TV
+SEC Network
+SEC Network Plus
+Pac-12
+ACC Network
+ACC Network Extra
+ESPNU
+ESPNEWS
+NHL Network
+beIN SPORTS
+ESPN Goal Line
+ESPN Bases Loaded
+Outside Television
+Tennis Channel
+MLB Strikezone
+MLB Network
+NFL RedZone
+NBA TV
+NHL Network
+Golf Channel
+beIN SPORTS
+Pac -12
+Outside Television
+Olympic Channel
+Tennis Channel
+10
+***************
+CLOUD DVR
+***************
+5
+***************
+KIDS
+***************
+Disney Jr.
+Disney XD
+Nick Jr.
+Nicktoons
+TeenNick
+Boomerang
+BabyTV
+DuckTV
+NickToons
+TeenNick
+Boomerang
+BabyTV
+ducktv
+5
+***************
+NEWS
+***************
+BBC World News
+the Blaze
+HLN
+Weather Nation
+Fusion
+Euronews
+News 18
+RTNetwork
+CGTN
+Science Channel
+Newsmax
+FreeSpeech
+MSNBC
+CNBC
+BBC World News
+the Blaze
+HLN
+Weather Nation
+Euronews
+France 24
+News 18
+NDTV 24x7
+RT Network
+CGTN
+Science Channel
+Newsmax
+FreeSpeech
+5
+***************
+LIFESTYLE
+***************
+VH1
+BET
+Cooking Channel
+DIY Network
+FYI
+Hallmark Channel
+WeTV
+Lifetime Movie
+Hallmark Movies and Mystery
+Hallmark Drama
+Z Living
+VH1
+Oxygen
+CookingChannel
+DIY Network
+FYI
+Hallmark Channel
+WeTV
+Lifetime Movie
+Hallmark Movie Mystery 
+Hallmark Drama
+Z Living
+5
+***************
+HEARTLAND
+***************
+World Fishing Network
+Sportsman Channel
+Outdoor Channel 
+Ride TV
+RFDTV
+Pixl
+Cowboy Channel
+American Heroes
+Destination America
+5
+***************
+HOLLYWOOD
+***************
+Reelz
+HDNet Movies
+SundanceTV
+Turner Classic Movies
+Cinemoi
+The Film Detective
+5
+***************
+INTERNATIONAL
+***************
+Aaj Tak
+CCTV 4
+MBC
+Pro Siebensat 1 Welt
+TV Globo
+SET
+TV5 Mondo info
+Willow HD
+Zee Cinema
+5
+***************
+ESPAÑOL
+***************
+Estrella
+Azteca
+ESPN Deportes
+Cine Latino 
+Cine Sony
+History ES
+Pasiones 
+Inti Network
+Vme Kids
+NTN24
+BabyTV ES
+Financiero Bloomberg 
+Zee Mundo
+Hola TV
+Ingles Para Todos
+PX Sports
+Discovery en Espanol
+Discovery Familia
+La Liga
+Bein Sports
+Bein Sports Espanol
+Bein Sports 4
+Bein Sports 5
+Bein Sports 6
+Bein Sports 7
+Bein Sports 8
+Universo
+Estrella
+Azteca
+Cine Latino
+Cine Sony
+History ES
+Pasiones
+Inti Network
+Cbeebies
+Vme Kids 
+NTN24
+BabyTV ES
+Financiero Bloomberg
+Zee Mundo
+HolaTV
+Ingles Para Todos
+PX Sports
+Discovery en Espanol
+Discovery Familia
+La Liga
+beIN Sports
+beIN Sports Espanol
+Bein Sports 4
+Bein Sports 5
+Bein Sports 6
+Bein Sports 7
+Bein Sports 8
+5
+***************
+COMEDY
+***************
+MTV
+TRUTV
+MTV2
+CMT
+Logo
+GSN
+TV Land
+Revolt
+MTV
+MTV2
+CMT
+Logo
+GSN
+TV Land
+Revolt
+5
+***************
+PREMIUMS
+***************
+Starz
+epix
+Showtime
+
