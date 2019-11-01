@@ -15,11 +15,12 @@ gem 'bootstrap-will_paginate'
 gem 'will_paginate', '~> 3.1.0'
 gem 'semantic-ui-sass', github: 'doabit/semantic-ui-sass'
 gem 'seed_dump'
+gem 'httparty'
 
 
 group :development, :test do
   # gem 'sqlite3', '1.3.13'
-  gem 'pg', '0.20.0'
+  # gem 'pg', '0.20.0'
   gem 'byebug',  '9.0.6', platform: :mri
   gem "rspec"
   gem "rspec-rails"
@@ -42,7 +43,7 @@ group :development do
 end
 
 group :production do
-  gem 'pg', '0.20.0'
+  # gem 'pg', '0.20.0'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
