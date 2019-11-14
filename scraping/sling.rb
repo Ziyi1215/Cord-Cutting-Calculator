@@ -52,3 +52,10 @@ file_list.each do |file|
         puts image['alt']
     end 
 end
+
+# require 'watir'
+# require 'nokogiri'
+# browser = Watir::Browser.new(:chrome, {:chromeOptions => {:args => ['--headless', '--window-size=1200x600']}})
+# browser.goto('https://www.sling.com/')
+# html_doc = Nokogiri::HTML(browser.html)
+# puts html_doc.xpath('/html/body/div[1]/main/section/div[2]/div/div[4]/div/div/div[1]/div/div/div/div/div[1]/div/div/div[2]/ul/div')
