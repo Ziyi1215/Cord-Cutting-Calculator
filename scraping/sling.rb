@@ -13,49 +13,65 @@ class Scraper
     end
 end
 
-scraper = Scraper.new()
-scraper.parse_url(scraper.get_url('https://www.sling.com'))
 
-scraper.parse_page.css('//div[@data-sling-tab-name]').each do |category|
-    addon_category = category['data-sling-tab-name']
-    puts "***************"
-    puts addon_category
-    puts "***************"
-    category.css('.carousel-jam_channel-container').css('img').each do |image|
-        puts image['alt']
+def get_packages
+    scraper = Scraper.new()
+    scraper.parse_url(scraper.get_url('https://www.sling.com'))
+    file_list = ['orange.htm', 'blue.htm', 'orange_blue.htm']
+    index = 0
+    packages_list = []
+    
+    file_list.each do |file|
+        all_channels_scraper = Scraper.new()
+        all_channels_scraper.parse_url(File.read(file))
+        
+        cost_list = all_channels_scraper.parse_page.css('.dyn-grid_package-title')
+        name_list = all_channels_scraper.parse_page.css('.dyn-grid_package-subtitle')
+        
+        package_cost_list = cost_list.zip(name_list).map do |cost, package|
+            [package.text, cost.text[/[\d]+/]]
+        end
+        
+        count = all_channels_scraper.parse_page.css('#channelList').css('img').count
+        channels_list = all_channels_scraper.parse_page.css('#channelList').css('img').map do |image|
+            image['title']
+        end 
+        
+        packages_list << [package_cost_list[index][0], channels_list, count, package_cost_list[index][1]]
+        index += 1
     end
-    cost = category.css('.carousel-jam_heading').text[/[\d]+/]
-    puts cost
+    packages_list
 end
 
-file_list = ['orange.htm', 'blue.htm', 'orange_blue.htm']
 
-file_list.each do |file|
-    puts "***************"
-    puts file
-    puts "***************"
-    
-    all_channels_scraper = Scraper.new()
-    all_channels_scraper.parse_url(File.read(file))
-    
-    cost_list = all_channels_scraper.parse_page.css('.dyn-grid_package-title')
-    name_list = all_channels_scraper.parse_page.css('.dyn-grid_package-subtitle')
-    
-    cost_list.zip(name_list).each do |cost, package|
-        puts package.text, cost.text[/[\d]+/]
+def get_addons
+    scraper = Scraper.new()
+    scraper.parse_url(scraper.get_url('https://www.sling.com'))
+    addon_list = []
+    scraper.parse_page.css('//div[@data-sling-tab-name]').each do |category|
+        addon_category = category['data-sling-tab-name']
+        channels_list = category.css('.carousel-jam_channel-container').css('img').map do |image|
+            image['alt']
+        end
+        cost = category.css('.carousel-jam_heading').text[/[\d]+/]
+        addon_list << [addon_category, channels_list, cost]
     end
-    puts
-    
-    puts all_channels_scraper.parse_page.css('#channelList').css('img').count
-    
-    all_channels_scraper.parse_page.css('#channelList').css('img').each do |image|
-        puts image['alt']
-    end 
+    addon_list
 end
+
+
+puts get_packages
+puts get_addons
+
+
 
 # require 'watir'
 # require 'nokogiri'
-# browser = Watir::Browser.new(:chrome, {:chromeOptions => {:args => ['--headless', '--window-size=1200x600']}})
+# browser = Watir::Browser.new(:chrome, {:chromeOptions => {:args => ['--headless', '--window-size=1200x600'], :binary => '/usr/bin/google-chrome'}})
 # browser.goto('https://www.sling.com/')
 # html_doc = Nokogiri::HTML(browser.html)
-# puts html_doc.xpath('/html/body/div[1]/main/section/div[2]/div/div[4]/div/div/div[1]/div/div/div/div/div[1]/div/div/div[2]/ul/div')
+# channel_list = html_doc.css('li')
+# puts channel_list.count
+# channel_list.each do |image|
+#     puts image['title']
+# end
