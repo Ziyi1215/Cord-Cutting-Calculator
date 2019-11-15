@@ -2,6 +2,9 @@ Rails.application.routes.draw do
 
   root 'pages#home'
 
+  get '/scrape', to: 'scrapers#select_package'
+  get '/scrape/:service', to: 'scrapers#show_package'
+
   resources :devices
   resources :set_top_boxes
   resources :packages
