@@ -60,11 +60,6 @@ def get_addons
 end
 
 
-puts get_packages
-puts get_addons
-
-
-
 # require 'watir'
 # require 'nokogiri'
 # browser = Watir::Browser.new(:chrome, {:chromeOptions => {:args => ['--headless', '--window-size=1200x600'], :binary => '/usr/bin/google-chrome'}})
