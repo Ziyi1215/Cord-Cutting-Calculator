@@ -1,18 +1,54 @@
 <html>
-    <p>
+    <body>
+        
+        <p>
         Package information for <%=params[:service]%>
-    </p>
-    <br>
-    <p>
-        Packages
-    </p>
-    <br>
-    <%= puts @packages %>
-    <br>
-    <p>
-        Addons
-    </p>
-    <br>
-    <%= puts @addons %>
-    <br>
+        </p>
+        <br>
+        <p>
+            Packages
+        </p>
+        <br>
+        
+        <table>
+            <tr>
+                <th>Package Name</th>
+                <th>Channels List</th>
+                <th>Number of channels</th>
+                <th>Cost</th>
+            </tr>
+            <% @packages.each do |name, list, count, cost| %>
+                <tr>
+                    <td><%=name%></td>
+                    <td><%=list%></td>
+                    <td><%=count%></td>
+                    <td><%=cost%></td>
+                </tr>
+            <% end %>
+        </table>
+        
+        <br><br><br>
+        <p>
+            Addons
+        </p>
+        <br>
+        
+        <table>
+            <tr>
+                <th>Addon Name</th>
+                <th>Channels List</th>
+                <th>Cost</th>
+            </tr>
+            <% @addons.each do |name, list, cost| %>
+                <tr>
+                    <td><%=name%></td>
+                    <td><%=list%></td>
+                    <td><%=cost%></td>
+                </tr>
+            <% end %>
+        </table>
+        
+        <br>
+        
+    </body>
 </html>

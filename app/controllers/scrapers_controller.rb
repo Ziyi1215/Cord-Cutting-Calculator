@@ -17,7 +17,7 @@ end
 def get_packages
     scraper = Scraper.new()
     scraper.parse_url(scraper.get_url('https://www.sling.com'))
-    file_list = ['orange.htm', 'blue.htm', 'orange_blue.htm']
+    file_list = ['scraping/orange.htm', 'scraping/blue.htm', 'scraping/orange_blue.htm']
     index = 0
     packages_list = []
     
