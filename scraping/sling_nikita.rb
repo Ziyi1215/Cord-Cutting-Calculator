@@ -41,7 +41,8 @@ def get_packages
             image['title']
         end
         
-        puts channels_list	
+	# To test this in isolation uncomment this and also the function call below
+        #puts channels_list	
         
         packages_list << [package_cost_list[index][0], channels_list, count, package_cost_list[index][1]]
         index += 1
@@ -66,7 +67,7 @@ def get_addons
 end
 
 
-get_packages
+#get_packages
 
 # require 'watir'
 # require 'nokogiri'
