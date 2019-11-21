@@ -16,6 +16,8 @@ gem 'will_paginate', '~> 3.1.0'
 gem 'semantic-ui-sass', github: 'doabit/semantic-ui-sass'
 gem 'seed_dump'
 gem 'httparty'
+gem 'watir'
+gem 'nokogiri'
 
 
 group :development, :test do
