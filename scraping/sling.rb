@@ -43,6 +43,7 @@ def get_packages
     packages_list
 end
 
+# puts get_packages
 
 def get_addons
     scraper = Scraper.new()
