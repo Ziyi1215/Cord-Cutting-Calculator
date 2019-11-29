@@ -15,10 +15,26 @@ html_doc.css('img').map do |image|
 end
 puts "-------------------------------------------------------------"
 
-puts "Add-ons"
+puts "Add-ons, Price , Plan"
 puts "-------------------------------------------------------------"
 html_doc.css("div").map do |divisions|
 	class_icon = divisions['class']
+	req_icon_plan = 'jsx-3636485725 plan-card__header'
+    if class_icon.to_s == req_icon_plan.to_s
+        divisions.css('h3').map do |addons|
+            puts addons.text
+        end
+    end
+    req_icon_pricing =  'jsx-3636485725 plan-card__priceline'
+    if class_icon.to_s == req_icon_pricing.to_s
+            divisions.css('p').map do |addons|
+                    class_icon = addons['class']
+                    req_icon_price = 'jsx-3636485725 plan-card__amount'
+                    if class_icon.to_s == req_icon_price.to_s
+                            puts addons.text
+                    end
+            end
+    end
 	req_icon = 'jsx-3636485725 plan-card__addons'
 	if class_icon.to_s == req_icon.to_s
 		divisions.css('li').map do |addons|
