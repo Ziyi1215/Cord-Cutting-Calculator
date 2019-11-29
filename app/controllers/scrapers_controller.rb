@@ -5,7 +5,8 @@ require 'nokogiri'
 def get_packages
     index = 0
     packages_list = []
-    browser = Watir::Browser.new(:chrome, {:chromeOptions => {:args => ['--headless', '--window-size=1200x600'], :binary => '/usr/bin/google-chrome'}})
+    chrome_bin = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+    browser = Watir::Browser.new(:chrome, {:chromeOptions => {:args => ['--headless', '--window-size=1200x600'], :binary => chrome_bin}})
     
     ["planOne", "planTwo", "planThree"].each do |package|
         browser.goto('https://www.sling.com/')
@@ -31,11 +32,10 @@ def get_packages
     packages_list
 end
 
-# puts get_packages
-
 
 def get_addons
-    browser = Watir::Browser.new(:chrome, {:chromeOptions => {:args => ['--headless', '--window-size=1200x600'], :binary => '/usr/bin/google-chrome'}})
+    chrome_bin = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+    browser = Watir::Browser.new(:chrome, {:chromeOptions => {:args => ['--headless', '--window-size=1200x600'], :binary => chrome_bin}})
     browser.goto('https://www.sling.com/')
     html_doc = Nokogiri::HTML(browser.html)
     
@@ -52,7 +52,6 @@ def get_addons
     addon_list
 end
 
-# puts get_addons
 
 class ScrapersController < ApplicationController
     
