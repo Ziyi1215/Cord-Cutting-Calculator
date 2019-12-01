@@ -30,3 +30,10 @@ def get_packages
 end
 
 puts get_packages
+
+
+# browser = Watir::Browser.new(:chrome, {:chromeOptions => {:args => ['--headless', '--window-size=1200x600'], :binary => '/usr/bin/google-chrome'}})
+# browser.goto('https://www.atttvnow.com/')
+# browser.a(id: "InternationalPackageTablink").div(class: "intpack-text").click
+# html_doc = Nokogiri::HTML(browser.html)
+# puts html_doc

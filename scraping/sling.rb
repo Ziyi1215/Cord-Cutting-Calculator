@@ -15,8 +15,8 @@ def get_packages
         cost_list = html_doc.css('.dyn-grid_package-title')
         name_list = html_doc.css('.dyn-grid_package-subtitle')
         
-        package_cost_list = cost_list.zip(name_list).map do |cost, package|
-            [package.text, cost.text[/[\d]+/]]
+        package_cost_list = cost_list.zip(name_list).map do |cost, pack|
+            [pack.text, cost.text[/[\d]+/]]
         end
         
         count = html_doc.css('#channelList').css('img').count
@@ -31,7 +31,7 @@ def get_packages
     packages_list
 end
 
-# puts get_packages
+puts get_packages
 
 
 def get_addons
@@ -46,10 +46,11 @@ def get_addons
             image['alt']
         end
         cost = category.css('.carousel-jam_heading').text[/[\d]+/]
-        addon_list << [addon_category, channels_list, cost]
+        count = channels_list.count
+        addon_list << [addon_category, channels_list, count, cost]
     end
     
     addon_list
 end
 
-# puts get_addons
+puts get_addons
