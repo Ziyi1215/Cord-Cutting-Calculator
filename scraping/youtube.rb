@@ -9,6 +9,8 @@ require 'nokogiri'
 # html_doc = Nokogiri::HTML(browser.html)
 # puts html_doc
 
+module Youtube
+
 def get_packages
     browser = Watir::Browser.new(:chrome, {:chromeOptions => {:args => ['--headless', '--window-size=1200x600'], :binary => '/usr/bin/google-chrome'}})
     browser.goto('https://tv.youtube.com/welcome')
@@ -24,5 +26,23 @@ def get_packages
     ["Youtube TV", channels_list, channels_list.count, price]
 end
 
-puts get_packages
+# puts get_packages
+
+
+
+def get_packages_local
+    html_doc = Nokogiri::HTML(File.read("youtube.html"))
+    
+    channels_list = html_doc.css('div.zip__network').map do |channel|
+        channel.css('p').text
+    end
+    
+    price = html_doc.css('span.price').text[/[\d]+[,.][\d]+/]
+    
+    ["Youtube TV", channels_list, channels_list.count, price]
+end
+
+end
+
+# puts get_packages_local
 

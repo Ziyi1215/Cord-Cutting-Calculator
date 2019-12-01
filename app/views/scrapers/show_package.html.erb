@@ -1,6 +1,6 @@
 <html>
     <body>
-        
+        <br><br><br><br><br>
         <p>
         Package information for <%=params[:service]%>
         </p>
@@ -28,25 +28,31 @@
         </table>
         
         <br><br><br>
-        <p>
-            Addons
-        </p>
-        <br>
         
-        <table>
-            <tr>
-                <th>Addon Name</th>
-                <th>Channels List</th>
-                <th>Cost</th>
-            </tr>
-            <% @addons.each do |name, list, cost| %>
+        
+        <% if !@addons.nil? %>
+            <p>
+                Addons
+            </p>
+            <br>
+        
+            <table>
                 <tr>
-                    <td><%=name%></td>
-                    <td><%=list%></td>
-                    <td><%=cost%></td>
+                    <th>Addon Name</th>
+                    <th>Channels List</th>
+                    <th>Number of channels</th>
+                    <th>Cost</th>
                 </tr>
-            <% end %>
-        </table>
+                <% @addons.each do |name, list, count, cost| %>
+                    <tr>
+                        <td><%=name%></td>
+                        <td><%=list%></td>
+                        <td><%=count%></td>
+                        <td><%=cost%></td>
+                    </tr>
+                <% end %>
+            </table>
+        <% end %>
         
         <br>
         
