@@ -54,7 +54,11 @@ def get_packages_local_att
     
     plus_cost = html_doc.css('div#plus-info').css('div.price').text[/[\d]+/]
     plus_channels = html_doc.css('div.plus-images').css('img').map do |channel|
-        channel['src'].scan(/.+\/([a-zA-Z]+).png/)
+        channel['src'].scan(/.+\/([a-zA-Z]+).png/)[0]
+    end
+    plus_channels = plus_channels.compact
+    plus_channels = plus_channels.map do |channel|
+        channel[0]
     end
     plus_channels = plus_channels.uniq
     plus_count = plus_channels.count
@@ -63,7 +67,11 @@ def get_packages_local_att
     
     max_cost = html_doc.css('div#max-info').css('div.price').text[/[\d]+/]
     max_channels = html_doc.css('div.max-images').css('img').map do |channel|
-        channel['src'].scan(/.+\/([a-zA-Z]+).png/)
+        channel['src'].scan(/.+\/([a-zA-Z]+).png/)[0]
+    end
+    max_channels = max_channels.compact
+    max_channels = max_channels.map do |channel|
+        channel[0]
     end
     max_channels = max_channels.uniq
     max_count = max_channels.count
@@ -111,7 +119,7 @@ def get_packages_local_hulu
 		end
 	channels_list.delete(nil)
 	price.delete(nil)
-	[["Hulu Live TV", channels_list, channels_list.count, price[0]]]
+	[["Hulu Live TV", channels_list, channels_list.count, price[0][0].scan(/[\d]+[,.][\d]+/)[0]]]
 end
 
 class ScrapersController < ApplicationController
@@ -127,7 +135,7 @@ class ScrapersController < ApplicationController
         elsif params[:service] == "youtube" 
             @packages = get_packages_local_youtube
         elsif params[:service] == "hulu"
-	    @packages = get_packages_local_hulu
+	        @packages = get_packages_local_hulu
         end
     end
 end
