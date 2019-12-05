@@ -81,6 +81,46 @@ def get_packages_local_att
 end
 
 
+
+def get_packages_att
+    chrome_bin = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+    browser = Watir::Browser.new(:chrome, {:chromeOptions => {:args => ['--headless', '--window-size=1200x600'], :binary => chrome_bin}})
+    browser.goto('https://www.atttvnow.com/')
+    browser.a(id: "BasePackageTablink").click
+    html_doc = Nokogiri::HTML(browser.html)
+    browser.close
+    
+    packages_list = []
+    
+    plus_cost = html_doc.css('div#plus-info').css('div.price').text[/[\d]+/]
+    plus_channels = html_doc.css('div.plus-images').css('img').map do |channel|
+        channel['src'].scan(/.+\/([a-zA-Z]+).png/)[0]
+    end
+    plus_channels = plus_channels.compact
+    plus_channels = plus_channels.map do |channel|
+        channel[0]
+    end
+    plus_channels = plus_channels.uniq
+    plus_count = plus_channels.count
+    packages_list << ["PLUS", plus_channels, plus_count, plus_cost]
+    
+    
+    max_cost = html_doc.css('div#max-info').css('div.price').text[/[\d]+/]
+    max_channels = html_doc.css('div.max-images').css('img').map do |channel|
+        channel['src'].scan(/.+\/([a-zA-Z]+).png/)[0]
+    end
+    max_channels = max_channels.compact
+    max_channels = max_channels.map do |channel|
+        channel[0]
+    end
+    max_channels = max_channels.uniq
+    max_count = max_channels.count
+    packages_list << ["MAX", max_channels, max_count, max_cost]
+    
+    packages_list
+end
+
+
 def get_packages_local_youtube
     html_doc = Nokogiri::HTML(File.read("scraping/youtube.html"))
     
@@ -131,7 +171,7 @@ class ScrapersController < ApplicationController
             @addons = get_addons_local_sling
             @packages = get_packages_local_sling
         elsif params[:service] == "att"
-            @packages = get_packages_local_att
+            @packages = get_packages_att
         elsif params[:service] == "youtube" 
             @packages = get_packages_local_youtube
         elsif params[:service] == "hulu"
