@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
   get '/scrape', to: 'scrapers#select_package'
   get '/scrape/:service', to: 'scrapers#show_package'
+  post '/scrape/:service', to: 'scrapers#show_package'
 
   resources :devices
   resources :set_top_boxes

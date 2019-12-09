@@ -284,5 +284,11 @@ class ScrapersController < ApplicationController
         elsif params[:service] == "hulu"
 	        @packages = get_packages_hulu
         end
+        
+        if request.post?
+            if !params["package_info"].nil?
+                session[:update_notice] = "Package information updated"
+            end
+        end
     end
 end

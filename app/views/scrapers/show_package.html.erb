@@ -1,6 +1,10 @@
 <html>
     <body>
         <br><br><br><br><br>
+        <% if !session[:update_notice].nil? %>
+            <%= session[:update_notice] %>
+            <% session.delete(:update_notice) %>
+        <% end %><br>
         <p>
         Package information for <%=params[:service]%>
         </p>
@@ -55,6 +59,11 @@
         <% end %>
         
         <br>
+        
+        <%= form_tag("/scrape/#{params[:service]}", :method => :post) do %>
+            <%= hidden_field_tag "package_info", :value => @packages %>
+            <%= submit_tag "Commit Info" %>
+        <% end %>
         
     </body>
 </html>
