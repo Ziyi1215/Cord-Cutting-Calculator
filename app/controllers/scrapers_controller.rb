@@ -289,10 +289,11 @@ class ScrapersController < ApplicationController
         
         if request.post?
             if !params["package_info"].nil?
-                @packages.each do |name, channels_list_local, count, cost|
+                @packages.each do |package_name, channels_list_local, count, cost|
                 	channels_list_local.each do |c|
 				Channel.create(name: c.downcase)
 			end
+                        Package.create(name: package_name)
                 end
                 session[:update_notice] = "Package information updated"
             end
