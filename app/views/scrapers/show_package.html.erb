@@ -1,3 +1,10 @@
+
+<% if((current_user.blank?) or (!current_user.admin))  %>
+  <script type="text/javascript">
+    window.location.href="/"  // put your correct path in a string here
+  </script>
+<% end %>
+
 <html>
     <body>
         <br><br><br><br><br>
@@ -62,8 +69,11 @@
         
         <%= form_tag("/scrape/#{params[:service]}", :method => :post) do %>
             <%= hidden_field_tag "package_info", :value => @packages %>
-            <%= submit_tag "Commit Info" %>
+            <%= submit_tag "Commit Info", class: "btn btn-primary btn-lg btn-xlarge" %>
         <% end %>
+        
+        <br>
+        <%= link_to "Back", scrape_path, class: "btn btn-primary btn-lg btn-xlarge" %>
         
     </body>
 </html>

@@ -1,3 +1,10 @@
+
+<% if((current_user.blank?) or (!current_user.admin))  %>
+  <script type="text/javascript">
+    window.location.href="/"  // put your correct path in a string here
+  </script>
+<% end %>
+
 <html>
     <p>
         Choose the streaming service to scrape
@@ -6,5 +13,6 @@
     <%= link_to "Scrape sling package information", "/scrape/sling" %><br>
     <%= link_to "Scrape at&t package information", "/scrape/att" %><br>
     <%= link_to "Scrape youtube tv package information", "/scrape/youtube" %><br>
-    <%= link_to "Scrape hulu tv package information", "/scrape/hulu" %><br>
+    <%= link_to "Scrape hulu tv package information", "/scrape/hulu" %><br><br>
+    <%= link_to "Back to Home Page", root_path %>
 </html>
