@@ -116,7 +116,7 @@ def get_packages_local_att
     end
     plus_channels = plus_channels.uniq
     plus_count = plus_channels.count
-    packages_list << ["PLUS", plus_channels, plus_count, plus_cost]
+    packages_list << ["AT&T PLUS", plus_channels, plus_count, plus_cost]
     
     
     max_cost = html_doc.css('div#max-info').css('div.price').text[/[\d]+/]
@@ -129,7 +129,7 @@ def get_packages_local_att
     end
     max_channels = max_channels.uniq
     max_count = max_channels.count
-    packages_list << ["MAX", max_channels, max_count, max_cost]
+    packages_list << ["AT&T MAX", max_channels, max_count, max_cost]
     
     packages_list
 end
@@ -275,14 +275,14 @@ class ScrapersController < ApplicationController
     
     def show_package
         if params[:service] == "sling"
-            @addons = get_addons_sling
-            @packages = get_packages_sling
+            @addons = get_addons_local_sling
+            @packages = get_packages_local_sling
         elsif params[:service] == "att"
-            @packages = get_packages_att
+            @packages = get_packages_local_att
         elsif params[:service] == "youtube" 
             @packages = get_packages_local_youtube
         elsif params[:service] == "hulu"
-	        @packages = get_packages_hulu
+	        @packages = get_packages_local_hulu
         end
         
     
@@ -290,16 +290,27 @@ class ScrapersController < ApplicationController
         if request.post?
             if !params["package_info"].nil?
                 @packages.each do |package_name, channels_list_local, count, cost1|
+                    
                 	channels_list_local.each do |c|
-				Channel.find_or_create_by(name: c.downcase)
-			end
-                        Package.find_or_create_by(name: package_name.downcase, cost: cost1)
-			package_id1 = Package.where(name: package_name.downcase).pluck(:id)[0]
-                        channel_id_list_local = channels_list_local.map do |c|
-				Channel.where(name: c.downcase).pluck(:id)[0]
-                        end
-			channel_id_test = channel_id_list_local[0]
-			ProvideChannel.create_record(package_id1,channel_id_list_local)
+				        Channel.find_or_create_by(name: c.downcase)
+				    end
+			    
+                    # Package.find_or_create_by(name: package_name.downcase, cost: cost1)
+                    
+                    @my_channel = Package.where(name: package_name.downcase)
+				    if @my_channel.blank?
+				        Package.create(name: package_name.downcase, cost: cost1)
+				    else
+				        @my_channel.first.update_attributes(cost: cost1)
+				    end
+                    
+			        package_id1 = Package.where(name: package_name.downcase).pluck(:id)[0]
+			        
+                    channel_id_list_local = channels_list_local.map do |c|
+				        Channel.where(name: c.downcase).pluck(:id)[0]
+                    end
+			
+			        ProvideChannel.create_record(package_id1, channel_id_list_local)
                 end
                 session[:update_notice] = "Package information updated"
             end

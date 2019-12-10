@@ -24,7 +24,10 @@ class ProvideChannel < ApplicationRecord
   
   def ProvideChannel.create_record(package_id, items)
     items.each do |item|
-      ProvideChannel.create package_id: package_id, channel_id: item
+      @my_row = ProvideChannel.where(package_id: package_id, channel_id: item)
+      if @my_row.blank?
+        ProvideChannel.create package_id: package_id, channel_id: item
+      end
     end
   end
 
