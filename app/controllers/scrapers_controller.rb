@@ -298,7 +298,8 @@ class ScrapersController < ApplicationController
                         channel_id_list_local = channels_list_local.map do |c|
 				Channel.where(name: c.downcase).pluck(:id)
                         end
-			ProvideChannel.create(package_id: package_id1.to_i, channel_id: channel_id_list_local[0].to_i)
+			channel_id_test = channel_id_list_local[0]
+			ProvideChannel.create(package_id: package_id1.to_i, channel_id: channel_id_test.to_i)
                 end
                 session[:update_notice] = "Package information updated"
             end
