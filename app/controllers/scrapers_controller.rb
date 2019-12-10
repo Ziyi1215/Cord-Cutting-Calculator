@@ -289,16 +289,19 @@ class ScrapersController < ApplicationController
         
         if request.post?
             if !params["package_info"].nil?
-                @packages.each do |package_name, channels_list_local, count, cost|
+                @packages.each do |package_name, channels_list_local, count, cost1|
                 	channels_list_local.each do |c|
-				Channel.create(name: c.downcase)
+				Channel.find_or_create_by(name: c.downcase)
 			end
-                        Package.create(name: package_name)
+                        Package.find_or_create_by(name: package_name.downcase, cost: cost1)
+			package_id1 = Package.where(name: package_name).pluck(:id)
+                        channels_list_local.each do |c|
+				channel_id1 = Channel.where(name: c.downcase).pluck(:id)
+				ProvideChannel.find_or_create_by(package_id: package_id1, channel_id: channel_id1)
+			end
                 end
                 session[:update_notice] = "Package information updated"
             end
         end
-        
-       
     end
 end
