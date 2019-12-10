@@ -294,7 +294,7 @@ class ScrapersController < ApplicationController
 				Channel.find_or_create_by(name: c.downcase)
 			end
                         Package.find_or_create_by(name: package_name.downcase, cost: cost1)
-			package_id1 = Package.where(name: package_name).pluck(:id)
+			package_id1 = Package.where(name: package_name.downcase).pluck(:id)
                         channels_list_local.each do |c|
 				channel_id1 = Channel.where(name: c.downcase).pluck(:id)
 				ProvideChannel.find_or_create_by(package_id: package_id1, channel_id: channel_id1)
