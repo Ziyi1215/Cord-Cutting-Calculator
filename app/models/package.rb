@@ -14,6 +14,4 @@ class Package < ApplicationRecord
   # Validation - name
   VALID_HTTPS_LINK = /https:\/\//
   validates(:name, presence: true, length: { minimum: 1, maximum: 255}, uniqueness: true)
-  validates(:cost, presence: true)
-  validates(:link, format: { with: VALID_HTTPS_LINK })
 end
