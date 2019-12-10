@@ -285,10 +285,18 @@ class ScrapersController < ApplicationController
 	        @packages = get_packages_hulu
         end
         
+    
+        
         if request.post?
             if !params["package_info"].nil?
+                channels_list_local = @packages[1]
+                channels_list_local.each do |c|
+			Channel.create(name: c)
+                end
                 session[:update_notice] = "Package information updated"
             end
         end
+        
+       
     end
 end
