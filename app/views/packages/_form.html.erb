@@ -1,61 +1,73 @@
     <html>
       
     <head>
+      <style>
+      </style>
+
       <script>
-function myFunction1() {
-  document.getElementById("myDropdown1").classList.toggle("show");
-}
-function filterFunction1() {
-  var input, filter, ul, li, a, i;
-  input = document.getElementById("myInput1");
-  filter = input.value.toUpperCase();
-  div = document.getElementById("myDropdown1");
-  li = div.getElementsByTagName("li");
-  for (i = 0; i < li.length; i++) {
-    txtValue = li[i].textContent || li[i].innerText;
-    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-      li[i].style.display = "";
-    } else {
-      li[i].style.display = "none";
-    }
-  }
-}
-function myFunction2() {
-  document.getElementById("myDropdown2").classList.toggle("show");
-}
-function filterFunction2() {
-  var input, filter, ul, li, a, i;
-  input = document.getElementById("myInput2");
-  filter = input.value.toUpperCase();
-  div = document.getElementById("myDropdown2");
-  li = div.getElementsByTagName("li");
-  for (i = 0; i < li.length; i++) {
-    txtValue = li[i].textContent || li[i].innerText;
-    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-      li[i].style.display = "";
-    } else {
-      li[i].style.display = "none";
-    }
-  }
-}
-function myFunction3() {
-  document.getElementById("myDropdown3").classList.toggle("show");
-}
-function filterFunction3() {
-  var input, filter, ul, li, a, i;
-  input = document.getElementById("myInput3");
-  filter = input.value.toUpperCase();
-  div = document.getElementById("myDropdown3");
-  li = div.getElementsByTagName("li");
-  for (i = 0; i < li.length; i++) {
-    txtValue = li[i].textContent || li[i].innerText;
-    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-      li[i].style.display = "";
-    } else {
-      li[i].style.display = "none";
-    }
-  }
-}
+        function myFunction1() {
+          document.getElementById("myDropdown1").classList.toggle("show");
+        }
+        function filterFunction1() {
+          var input, filter, ul, li, a, i;
+          input = document.getElementById("myInput1");
+          filter = input.value.toUpperCase();
+          div = document.getElementById("myDropdown1");
+          li = div.getElementsByTagName("li");
+          for (i = 0; i < li.length; i++) {
+            txtValue = li[i].textContent || li[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              li[i].style.display = "";
+            } else {
+              li[i].style.display = "none";
+            }
+          }
+        }
+        function myFunction2() {
+          document.getElementById("myDropdown2").classList.toggle("show");
+        }
+        function filterFunction2() {
+          var input, filter, ul, li, a, i;
+          input = document.getElementById("myInput2");
+          filter = input.value.toUpperCase();
+          div = document.getElementById("myDropdown2");
+          li = div.getElementsByTagName("li");
+          for (i = 0; i < li.length; i++) {
+            txtValue = li[i].textContent || li[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              li[i].style.display = "";
+            } else {
+              li[i].style.display = "none";
+            }
+          }
+        }
+        function myFunction3() {
+          document.getElementById("myDropdown3").classList.toggle("show");
+        }
+        function filterFunction3() {
+          var input, filter, ul, li, a, i;
+          input = document.getElementById("myInput3");
+          filter = input.value.toUpperCase();
+          div = document.getElementById("myDropdown3");
+          li = div.getElementsByTagName("li");
+          for (i = 0; i < li.length; i++) {
+            txtValue = li[i].textContent || li[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              li[i].style.display = "";
+            } else {
+              li[i].style.display = "none";
+            }
+          }
+        }
+        function fetch_channels() {
+          var load_channels_spinner = document.getElementById("load_channels_spinner");
+          load_channels_spinner.style.display = "block";
+
+          parse_url = '/package/parse_channels?name='+document.getElementById("package_name").value
+                + '&cost=' + document.getElementById("package_cost").value
+                + '&link=' + document.getElementById("package_link").value;
+          location.replace(parse_url);
+        }
       </script>
     </head>  
     
@@ -65,10 +77,29 @@ function filterFunction3() {
 
       <%= f.label :name %>
       <%= f.text_field :name, placeholder: 'Enter package name', autofocus: true, class: 'form-control'%>
+      </br>
       <%= f.label :cost %>
       <%= f.text_field :cost, placeholder: 'Enter package cost', class: 'form-control'%>
+      </br>
       <%= f.label :link %>
       <%= f.text_field :link, placeholder: 'Enter package link', class: 'form-control'%>
+      </br>
+      <%= link_to "FETCH CHANNELS", "", :onclick => "fetch_channels();return false;", :class => "btn btn-success", :style => "color: white;" %>
+      <p><i>Click the above button to read and load channels from the given Link</i></p>
+      </br>
+      <div class="spinner" id="load_channels_spinner" style="display: none;">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+      </div>
+      </br>
+      <% if cookies[:channels_not_in_db] != nil and @count_not_in_db != nil %>
+        </br>
+        <%= link_to "REVIEW NEW CHANNELS (#"+@count_not_in_db+")", "/channels/approve", :class => "btn btn-warning", :style => "color: white;" %>
+        <p><i>Click the above button to review new channels and approve them to add to application Database. It would not add those new channels to package without reviewing and approving them.</i></p>
+        </br>
+      <% end %>
+      </br>
       <%= f.label :DVR do %>
       <%= f.check_box :DVR, class: "multi-checkbox" %>
         <span>DVR</span>
@@ -174,6 +205,7 @@ function filterFunction3() {
       <%= f.submit "Submit", class: "btn btn-primary" %>
       
     <% end %>
+
     
     </body>
     </html>

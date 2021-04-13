@@ -1,7 +1,13 @@
+require 'webdrivers'
+require 'watir'
+require 'nokogiri'
+require 'htmlentities'
+
 class PackagesController < ApplicationController
+
   before_action :set_package, only: [:show, :edit, :update, :destroy]
   before_action :admin_user, only: [:index, :show, :edit, :update, :destroy, :select_origin, :new_hierarchical]
-  before_action :find_information, only: [:show, :new, :edit, :create, :update, :new_hierarchical]
+  before_action :find_information, only: [:show, :new, :edit, :create, :update, :new_hierarchical, :parse_channels]
   before_action :find_relationship, only: [:show, :edit, :update, :new_hierarchical]
   # GET /packages
   # GET /packages.json
@@ -88,6 +94,126 @@ class PackagesController < ApplicationController
     @package = Package.new
     origin_package = Package.find(params[:id])
     @package.name = origin_package.name
+  end
+
+  def parse_channels
+    @package = Package.new
+    @package.name = params['name'] || cookies['package_name']
+    @package.cost = params['cost'] || cookies['package_cost']
+    @package.link = params['link'] || cookies['package_link']
+
+    if !@package.link? or @package.link.to_s.strip.empty?
+      render 'new'
+      return
+    end
+
+    # MOVE TO SEPARATE MODULE
+    # load all channels from database
+    all_channels = []
+    Channel.all.each do |channel|
+        all_channels << channel.name.delete(' ').downcase
+    end
+
+    browser = nil
+    # load page
+    if Rails.env.production?
+      Selenium::WebDriver::Chrome.path = "/app/.apt/usr/bin/google-chrome"
+      Selenium::WebDriver::Chrome.driver_path = "/app/.chromedriver/bin/chromedriver"
+      browser = Watir::Browser.new :chrome
+    else
+      browser = Watir::Browser.new :firefox, profile: 'default', headless: true
+    end
+    # browser = Watir::Browser.new(:chrome, {:chromeOptions => {:args => ['--headless', '--window-size=1200x600']}})
+    # browser.goto("https://try.philo.com/")
+    # browser.goto("https://www.hulu.com/live-tv")
+    # browser.goto("https://tv.youtube.com/welcome/")
+    # browser.goto("https://www.fubo.tv/welcome/channels")
+    browser.goto(@package.link)
+
+    sleep 1
+    puts "Page loaded: %s" % browser.title
+    
+    document = Nokogiri::HTML(browser.body.html)
+    html_coder = HTMLEntities.new
+    html_channel_class = ""
+    html_channel_attr = ""
+    document.traverse do |node|
+        next unless node.is_a?(Nokogiri::XML::Element)
+        
+        alt = html_coder.decode(node['alt']).delete(' ').downcase
+        title = html_coder.decode(node['title']).delete(' ').downcase
+
+        if all_channels.include?(alt) 
+            puts "Class: %s, alt: %s" % [node['class'], node['alt']]
+            html_channel_class = node['class']
+            html_channel_attr = 'alt'
+            break
+        end
+
+        if all_channels.include?(title)
+            puts "Class: %s, title: %s" % [node['class'], node['title']]
+            html_channel_class = node['class']
+            html_channel_attr = 'title' 
+            break
+        end
+    end
+
+    # extract elements with class == <html_channel_class>
+    channels_in_page = []
+    document.traverse do |node|
+        next unless node.is_a?(Nokogiri::XML::Element)
+        
+        if node['class'] == html_channel_class
+            channels_in_page << html_coder.decode(node[html_channel_attr])
+        end
+    end
+
+    puts "Channels found on page: %s" % [channels_in_page]
+    
+    # Channels from DB
+    @channels = Channel.order(:name)
+    channel_objs = {}
+    @channels.each do |channel_obj|
+      channel_objs[channel_obj.name.delete(' ').downcase] = channel_obj
+    end
+
+    channels_in_db = Array.new
+    channels_not_in_db = Array.new
+    @package_channels = Array.new
+    channels_in_page.each do |channel|
+      if channel_objs.key?(channel.delete(' ').downcase)
+        @package_channels << channel_objs[channel.delete(' ').downcase]
+        channels_in_db << channel
+      else 
+        channels_not_in_db << channel
+      end    
+    end
+
+    puts "channels in DB && page" % @package_channels.length
+    i = 0
+    @package_channels.each do |channel|
+      unless channel.nil?
+        print "%s, " % channel.name
+        i += 1
+      end
+    end
+    puts "#%d" % [i]
+
+    puts "setting cookies"
+    cookies[:package_name] = {:value => @package.name, :expires => 1.hour.from_now}
+    cookies[:package_cost] = {:value => @package.cost, :expires => 1.hour.from_now}
+    cookies[:package_link] = {:value => @package.link, :expires => 1.hour.from_now}
+
+    if channels_in_db.length() > 0
+      cookies[:channels_in_db] = {:value => channels_in_db.join(","), :expires => 1.hour.from_now}
+    end
+    
+    if channels_not_in_db.length() > 0
+      cookies[:channels_not_in_db] = {:value => channels_not_in_db.join(","), :expires => 1.hour.from_now}
+      @count_not_in_db = channels_not_in_db.length().to_s
+    end
+    
+    render 'new'
   end
 
   private

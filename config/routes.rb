@@ -2,6 +2,8 @@ Rails.application.routes.draw do
 
   root 'pages#home'
 
+  get '/channels/approve', to: 'channels#get_approve_list'
+  post '/channels/approve', to: 'channels#approve_channels'
   resources :devices
   resources :set_top_boxes
   resources :packages
@@ -29,6 +31,7 @@ Rails.application.routes.draw do
 
   get '/package/select_origin', to: 'packages#select_origin', as: 'select_origin'
   get '/package/new_hierarchical/:id', to: 'packages#new_hierarchical', as: 'hierarchical_new'
+  get '/package/parse_channels', to: 'packages#parse_channels', as: 'parse_channels'
 
   get '/users/:id/calculator', to: 'users#calculator', as: 'calculator'
   post '/users/:id/calculator', to: 'users#calculate', as: 'calculate'
